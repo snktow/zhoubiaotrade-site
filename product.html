@@ -15,6 +15,8 @@ header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid 
 .logo{font-weight:800;font-size:20px;color:var(--brand)}
 .logo span{color:var(--brand2)}
 .back{margin-left:auto;font-size:14px;color:var(--muted)}
+.cartbtn{position:relative;border:1px solid #e5e7eb;border-radius:999px;padding:8px 14px;font-size:14px;cursor:pointer;background:#fff}
+.cartbtn b{position:absolute;top:-7px;right:-7px;background:var(--brand2);color:#1a1a1a;border-radius:999px;font-size:11px;padding:1px 6px}
 main{padding:22px 0 50px}
 .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:28px;background:#fff;border-radius:var(--radius);padding:22px;border:1px solid #eceef1}
 @media(max-width:720px){.pgrid{grid-template-columns:1fr;gap:18px}}
@@ -30,43 +32,31 @@ h1{font-size:22px;line-height:1.3;margin-bottom:8px}
 .btn{display:block;width:100%;text-align:center;background:var(--brand);color:#fff;border:0;border-radius:10px;padding:14px;font-size:16px;font-weight:700;cursor:pointer;margin-top:8px}
 .btn.alt{background:var(--brand2);color:#1a1a1a}
 .btn[disabled]{background:#e5e7eb;color:#9aa1a9;cursor:not-allowed}
-.form{background:#fff;border:1px solid #eceef1;border-radius:var(--radius);padding:20px;margin-top:20px;display:none}
-.form h2{font-size:17px;margin-bottom:14px}
-label{display:block;font-size:13px;color:var(--muted);margin:10px 0 4px}
-input,textarea{width:100%;border:1px solid #dfe3e8;border-radius:9px;padding:11px;font-size:15px;font-family:inherit;outline:none}
-input:focus{border-color:var(--brand)}
-.ok{background:#e8f5ee;border:1px solid #b7e0c9;color:#0b6b3a;border-radius:10px;padding:14px;font-size:14px;margin-top:14px;display:none}
-.err{color:#b91c1c;font-size:13px;margin-top:8px;display:none}
+.qtyrow{display:flex;align-items:center;gap:10px;margin-top:12px}
+.qtyrow button{width:34px;height:34px;border:1px solid #ddd;background:#fff;border-radius:8px;font-size:18px;cursor:pointer}
+.qtyrow span{min-width:30px;text-align:center;font-weight:700}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#15181c;color:#fff;padding:12px 20px;border-radius:10px;font-size:14px;z-index:200;transition:.25s;opacity:0}
+.toast.on{transform:translateX(-50%) translateY(0);opacity:1}
 </style>
 </head>
 <body>
 <header><div class="wrap top">
   <div class="logo">Loja<span>AO</span></div>
   <a class="back" href="index.html">← Voltar à loja</a>
+  <button class="cartbtn" onclick="location.href='index.html'">🛒 <b id="cartCount">0</b></button>
 </div></header>
 
 <main class="wrap">
   <div class="pgrid" id="pgrid"><div style="color:#6b7280">Carregando...</div></div>
-
-  <div class="form" id="form">
-    <h2>Finalizar pedido</h2>
-    <label>Nome completo *</label><input id="cname" placeholder="O seu nome">
-    <label>Telefone / WhatsApp *</label><input id="cphone" placeholder="+244 ...">
-    <label>Província / Cidade *</label><input id="ccity" placeholder="Luanda">
-    <label>Endereço de entrega</label><input id="caddr" placeholder="Rua, número, referência">
-    <label>Quantidade</label><input id="cqty" type="number" min="1" value="1">
-    <div class="err" id="err">Preencha nome, telefone e cidade.</div>
-    <button class="btn" onclick="submitOrder()">Confirmar pedido</button>
-    <div class="btn alt" onclick="waOrder()" style="margin-top:8px">Pedir via WhatsApp</div>
-    <div class="ok" id="ok"></div>
-  </div>
 </main>
+<div class="toast" id="toast"></div>
 
 <script>
 const RATE=175.44, MARKUP=3.0;
-let P=null, ORDER=null;
-const money = new Intl.NumberFormat('pt-AO',{maximumFractionDigits:0});
-const qs = new URLSearchParams(location.search);
+const money = aoa => new Intl.NumberFormat('pt-AO',{maximumFractionDigits:0}).format(aoa)+' Kz';
+let P=null;
+const qs=new URLSearchParams(location.search);
+let cart = JSON.parse(localStorage.getItem('lojaao_cart')||'[]');
 
 function emoji(n){n=(n||'').toLowerCase();
   if(/耳机|ouvido/.test(n))return'🎧'; if(/音箱|speaker/.test(n))return'🔊';
@@ -75,53 +65,45 @@ function emoji(n){n=(n||'').toLowerCase();
   if(/钳|alicate/.test(n))return'🔧'; if(/包|bolsa|carteira/.test(n))return'👛';
   if(/眼镜|oculos/.test(n))return'🕶️'; if(/美容|brush/.test(n))return'💇'; return'📦';
 }
+function renderCount(){ document.getElementById('cartCount').textContent = cart.reduce((a,c)=>a+c.qty,0); }
 
-fetch('data/products.json').then(r=>r.json()).then(d=>{
-  P = d.products.find(x=>x.sku===qs.get('sku'));
-  if(!P){ document.getElementById('pgrid').innerHTML='<div>Produto não encontrado.</div>'; return; }
-  const stock = parseInt(P.stock||'0',10), ok = stock>0;
-  const price = Math.round(parseFloat(P.cost||'0')*MARKUP*RATE);
-  document.title = P.name + ' — LojaAO';
-  document.getElementById('pgrid').innerHTML = `
+P = (DATA.products||[]).find(x=>x.sku===qs.get('sku'));
+if(!P){
+  document.getElementById('pgrid').innerHTML='<div>Produto não encontrado. <a href="index.html">Voltar</a></div>';
+} else {
+  const stock=parseInt(P.stock||'0',10), ok=stock>0;
+  const price=Math.round(parseFloat(P.cost||'0')*MARKUP*RATE);
+  document.title=P.name+' — LojaAO';
+  document.getElementById('pgrid').innerHTML=`
     <div class="heroimg">${emoji(P.name)}</div>
     <div>
       <h1>${P.name}</h1>
       <div class="meta">SKU: ${P.sku} · ${P.spu||''}</div>
       <div class="badge ${ok?'':'no'}">${ok? '✔ Em stock ('+stock+' un.)' : 'Esgotado'}</div>
-      <div class="price">${money.format(price)} Kz</div>
+      <div class="price">${money(price)}</div>
       <div class="cost-note">Preço final em Kwanzas (AOA). Entrega em Angola.</div>
       <div class="row"><b>Especificações</b><span>${P.spec||'—'}</span></div>
-      <div class="row"><b>Tipo</b><span>${P.buyType||'—'}</span></div>
       <div class="row"><b>Garantia</b><span>Produto verificado, stock local</span></div>
-      <button class="btn" ${ok?'':'disabled'} onclick="showForm()">${ok?'Comprar agora':'Esgotado'}</button>
-      <button class="btn alt" onclick="waOrder()">Falar no WhatsApp</button>
+      ${ok?`<div class="qtyrow"><span>Qtd:</span><button onclick="chg(-1)">−</button><span id="qty">1</span><button onclick="chg(1)">+</button></div>
+        <button class="btn" onclick="addNow()">Adicionar ao carrinho</button>`
+        :`<button class="btn" disabled>Esgotado</button>`}
+      <button class="btn alt" onclick="waNow()">Perguntar por WhatsApp</button>
     </div>`;
-}).catch(()=>{ document.getElementById('pgrid').innerHTML='<div>Erro ao carregar.</div>'; });
-
-function showForm(){ document.getElementById('form').style.display='block'; document.getElementById('form').scrollIntoView({behavior:'smooth'}); }
-function waOrder(){
-  const t = P ? `Olá! Tenho interesse em: ${P.name} (SKU ${P.sku})` : 'Olá!';
-  window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank');
+  renderCount();
 }
-function submitOrder(){
-  const name=document.getElementById('cname').value.trim();
-  const phone=document.getElementById('cphone').value.trim();
-  const city=document.getElementById('ccity').value.trim();
-  const addr=document.getElementById('caddr').value.trim();
-  const qty=Math.max(1,parseInt(document.getElementById('cqty').value||'1',10));
-  const err=document.getElementById('err');
-  if(!name||!phone||!city){ err.style.display='block'; return; }
-  err.style.display='none';
-  const price = Math.round(parseFloat(P.cost)*MARKUP*RATE);
-  ORDER = { id:'ZB'+Date.now().toString().slice(-8), sku:P.sku, name:P.name, qty, unit:price, total:price*qty,
-            customer:{name,phone,city,addr}, ts:new Date().toISOString() };
-  const list = JSON.parse(localStorage.getItem('zb_orders')||'[]'); list.push(ORDER);
-  localStorage.setItem('zb_orders', JSON.stringify(list));
-  const ok=document.getElementById('ok');
-  ok.style.display='block';
-  ok.innerHTML = `✅ Pedido <b>${ORDER.id}</b> registado!<br>Produto: ${ORDER.name} × ${qty}<br>Total: <b>${money.format(ORDER.total)} Kz</b><br><br>Vamos contactá-lo pelo telefone <b>${phone}</b> para confirmar o pagamento e a entrega.`;
-  ok.scrollIntoView({behavior:'smooth'});
+function chg(d){ const el=document.getElementById('qty'); const max=parseInt(P.stock||'1',10);
+  el.textContent=Math.max(1,Math.min(parseInt(el.textContent)+d,max)); }
+function addNow(){
+  const q=parseInt(document.getElementById('qty').textContent);
+  const it=cart.find(c=>c.sku===P.sku);
+  if(it) it.qty=Math.min(it.qty+q, parseInt(P.stock,10)); else cart.push({sku:P.sku,name:P.name,price:Math.round(parseFloat(P.cost)*MARKUP*RATE),qty:q});
+  localStorage.setItem('lojaao_cart',JSON.stringify(cart));
+  renderCount();
+  const t=document.getElementById('toast'); t.textContent='Adicionado ao carrinho!'; t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),1600);
 }
+function waNow(){ window.open('https://wa.me/?text='+encodeURIComponent('Olá! Tenho interesse em: '+P.name+' (SKU '+P.sku+')'),'_blank'); }
 </script>
+<script>const DATA=/*DATA*/;</script>
 </body>
 </html>

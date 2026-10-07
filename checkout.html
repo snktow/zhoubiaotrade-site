@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Finalizar compra — LojaAO</title>
+<style>
+:root{--brand:#0b6b3a;--brand2:#f0a500;--bg:#f7f7f8;--txt:#15181c;--muted:#6b7280;--radius:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.55}
+a{text-decoration:none;color:inherit}
+header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #e5e7eb}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+.top{display:flex;align-items:center;height:64px;gap:14px}
+.logo{font-weight:800;font-size:20px;color:var(--brand)}
+.logo span{color:var(--brand2)}
+.back{margin-left:auto;font-size:14px;color:var(--muted)}
+main{padding:22px 0 60px}
+.box{background:#fff;border:1px solid #eceef1;border-radius:var(--radius);padding:20px;margin-bottom:16px}
+h2{font-size:17px;margin-bottom:14px}
+label{display:block;font-size:13px;color:var(--muted);margin:10px 0 4px}
+input,select,textarea{width:100%;border:1px solid #dfe3e8;border-radius:9px;padding:11px;font-size:15px;font-family:inherit;outline:none}
+input:focus,select:focus{border-color:var(--brand)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.row{grid-template-columns:1fr}}
+.item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f3f4f6;font-size:14px}
+.tot{display:flex;justify-content:space-between;font-weight:800;font-size:18px;margin-top:14px;color:var(--brand)}
+.btn{display:block;width:100%;text-align:center;background:var(--brand);color:#fff;border:0;border-radius:10px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;margin-top:6px}
+.btn.alt{background:var(--brand2);color:#1a1a1a}
+.err{color:#b91c1c;font-size:13px;margin-top:8px;display:none}
+.ok{background:#e8f5ee;border:1px solid #b7e0c9;color:#0b6b3a;border-radius:10px;padding:18px;font-size:14px;margin-top:14px;display:none}
+.hint{font-size:12px;color:var(--muted);margin-top:8px}
+</style>
+</head>
+<body>
+<header><div class="wrap top">
+  <div class="logo">Loja<span>AO</span></div>
+  <a class="back" href="index.html">← Voltar à loja</a>
+</div></header>
+
+<main class="wrap">
+  <div class="box">
+    <h2>Os seus dados</h2>
+    <label>Nome completo *</label><input id="name" placeholder="O seu nome">
+    <div class="row">
+      <div><label>Telefone / WhatsApp *</label><input id="phone" placeholder="+244 9XX XXX XXX"></div>
+      <div><label>Província / Cidade *</label><input id="city" placeholder="Luanda"></div>
+    </div>
+    <label>Endereço de entrega</label><input id="addr" placeholder="Rua, número, referência">
+    <label>Observações (opcional)</label><textarea id="note" rows="2" placeholder="Instruções de entrega..."></textarea>
+    <label>Método de pagamento</label>
+    <select id="pay">
+      <option value="cod">Pagamento na entrega (Cash on delivery)</option>
+      <option value="transfer">Transferência bancária / Multicaixa</option>
+      <option value="contact">A combinar por telefone</option>
+    </select>
+    <div class="err" id="err">Preencha nome, telefone e cidade.</div>
+  </div>
+
+  <div class="box">
+    <h2>Resumo do pedido</h2>
+    <div id="items"></div>
+    <div class="tot"><span>Total</span><span id="total">0 Kz</span></div>
+    <div class="hint">A taxa de entrega é confirmada por telefone após o pedido.</div>
+    <button class="btn" onclick="submitOrder()" id="submitBtn">Confirmar pedido</button>
+    <button class="btn alt" onclick="waOrder()">Enviar também por WhatsApp</button>
+    <div class="ok" id="ok"></div>
+  </div>
+</main>
+
+<script>
+const money = aoa => new Intl.NumberFormat('pt-AO',{maximumFractionDigits:0}).format(aoa)+' Kz';
+const EMAIL = 'zhoubiao@zhoubiaotrade.cn';
+let ORDER=null;
+const co = JSON.parse(localStorage.getItem('lojaao_checkout')||'{}');
+const items = co.items||[], total = co.total||0;
+
+document.getElementById('items').innerHTML = items.map(i=>
+  `<div class="item"><span>${i.name} × ${i.qty}</span><span>${money(i.price*i.qty)}</span></div>`).join('')
+  || '<div class="item">Carrinho vazio</div>';
+document.getElementById('total').textContent = money(total);
+
+function submitOrder(){
+  const name=document.getElementById('name').value.trim();
+  const phone=document.getElementById('phone').value.trim();
+  const city=document.getElementById('city').value.trim();
+  const addr=document.getElementById('addr').value.trim();
+  const note=document.getElementById('note').value.trim();
+  const pay=document.getElementById('pay').value;
+  const err=document.getElementById('err');
+  if(!name||!phone||!city){ err.style.display='block'; return; }
+  err.style.display='none';
+
+  const id='LA'+Date.now().toString().slice(-8);
+  ORDER={ id, items, total, customer:{name,phone,city,addr,note,pay}, ts:new Date().toISOString() };
+
+  // local record
+  const list=JSON.parse(localStorage.getItem('lojaao_orders')||'[]'); list.push(ORDER);
+  localStorage.setItem('lojaao_orders', JSON.stringify(list));
+
+  // send to email via FormSubmit (AJAX endpoint, no captcha)
+  const body={
+    _subject:`🛒 Novo pedido ${id} — LojaAO`,
+    _template:'box',
+    Pedido:id, Cliente:name, Telefone:phone, Cidade:city, Endereco:addr, Observacoes:note,
+    Pagamento:pay, Total:money(total),
+    Itens:items.map(i=>`${i.name} x${i.qty} = ${money(i.price*i.qty)}`).join(' | '),
+    Data:new Date().toLocaleString('pt-AO')
+  };
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true; btn.textContent='A enviar...';
+  fetch('https://formsubmit.co/ajax/'+EMAIL,{
+    method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify(body)
+  }).catch(()=>{}).finally(()=>{
+    btn.disabled=false; btn.textContent='Confirmar pedido';
+    showOk();
+  });
+}
+function showOk(){
+  const ok=document.getElementById('ok');
+  ok.style.display='block';
+  ok.innerHTML=`✅ Pedido <b>${ORDER.id}</b> recebido!<br>
+    Vamos contactá-lo pelo telefone <b>${ORDER.customer.phone}</b> para confirmar o pagamento e a entrega.<br>
+    <span style="font-size:12px;color:#6b7280">Guarde o número do pedido: ${ORDER.id}</span>`;
+  ok.scrollIntoView({behavior:'smooth'});
+  localStorage.removeItem('lojaao_checkout');
+  localStorage.removeItem('lojaao_cart');
+}
+function waOrder(){
+  const t=`Olá! Gostaria de fazer o pedido:%0A${items.map(i=>`- ${i.name} x${i.qty}`).join('%0A')}%0ATotal: ${money(total)}%0ANome: ${document.getElementById('name').value}`;
+  window.open('https://wa.me/?text='+t,'_blank');
+}
+</script>
+</body>
+</html>

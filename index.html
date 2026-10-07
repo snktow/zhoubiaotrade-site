@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Loja Online | Angola</title>
-<meta name="description" content="Produtos de qualidade com entrega rápida em Angola. Eletrónica, casa, beleza e ferramentas.">
+<title>LojaAO — Loja Online para Angola</title>
+<meta name="description" content="Loja online em Angola. Eletrónica, casa, beleza e ferramentas com stock local e entrega rápida. Compre agora!">
 <style>
 :root{--brand:#0b6b3a;--brand2:#f0a500;--bg:#f7f7f8;--txt:#15181c;--muted:#6b7280;--card:#fff;--radius:14px}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -12,25 +12,29 @@ body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background
 a{text-decoration:none;color:inherit}
 header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #e5e7eb}
 .wrap{max-width:1120px;margin:0 auto;padding:0 16px}
-.top{display:flex;align-items:center;gap:14px;height:64px}
+.top{display:flex;align-items:center;gap:12px;height:64px}
 .logo{font-weight:800;font-size:20px;color:var(--brand);white-space:nowrap}
 .logo span{color:var(--brand2)}
 .search{flex:1;display:flex;background:var(--bg);border:1px solid #e5e7eb;border-radius:999px;overflow:hidden}
 .search input{flex:1;border:0;background:transparent;padding:10px 16px;font-size:15px;outline:none}
-.search button{border:0;background:var(--brand);color:#fff;padding:0 20px;font-size:15px;cursor:pointer}
-.hero{background:linear-gradient(135deg,var(--brand),#0e8a4a);color:#fff;padding:36px 0;margin-bottom:20px}
-.hero h1{font-size:26px;margin-bottom:8px}
+.search button{border:0;background:var(--brand);color:#fff;padding:0 18px;font-size:15px;cursor:pointer}
+.lang{border:1px solid #e5e7eb;border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer;background:#fff}
+.cartbtn{position:relative;border:1px solid #e5e7eb;border-radius:999px;padding:8px 14px;font-size:14px;cursor:pointer;background:#fff;white-space:nowrap}
+.cartbtn b{position:absolute;top:-7px;right:-7px;background:var(--brand2);color:#1a1a1a;border-radius:999px;font-size:11px;padding:1px 6px}
+.hero{background:linear-gradient(135deg,var(--brand),#0e8a4a);color:#fff;padding:34px 0;margin-bottom:18px}
+.hero h1{font-size:25px;margin-bottom:8px}
 .hero p{opacity:.92;font-size:15px}
-.badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
 .badge{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 14px;font-size:13px}
 .cats{display:flex;gap:8px;overflow-x:auto;padding:14px 0;scrollbar-width:none}
 .cats::-webkit-scrollbar{display:none}
 .cat{border:1px solid #e5e7eb;background:#fff;border-radius:999px;padding:8px 16px;font-size:14px;white-space:nowrap;cursor:pointer}
 .cat.on{background:var(--brand);color:#fff;border-color:var(--brand)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;padding-bottom:40px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;padding-bottom:30px}
 .card{background:var(--card);border-radius:var(--radius);overflow:hidden;border:1px solid #eceef1;display:flex;flex-direction:column;transition:.15s}
 .card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.07)}
-.thumb{aspect-ratio:1;background:#eef0f2;display:flex;align-items:center;justify-content:center;font-size:34px;color:#c9ced4}
+.thumb{aspect-ratio:1;background:#eef0f2;display:flex;align-items:center;justify-content:center;font-size:34px;color:#c9ced4;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover}
 .card .info{padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px;flex:1}
 .card h3{font-size:14px;font-weight:600;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:38px}
 .price{font-size:17px;font-weight:800;color:var(--brand)}
@@ -39,9 +43,32 @@ header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid 
 .btn{display:block;text-align:center;background:var(--brand);color:#fff;border:0;border-radius:10px;padding:10px;font-size:14px;font-weight:600;cursor:pointer;margin-top:auto}
 .btn.alt{background:var(--brand2);color:#1a1a1a}
 .out{background:#e5e7eb!important;color:#9aa1a9!important;cursor:not-allowed}
+.info-pages{background:#fff;border-radius:var(--radius);border:1px solid #eceef1;padding:24px;margin:20px 0}
+.info-pages h2{font-size:19px;margin-bottom:12px}
+.info-pages h3{font-size:15px;margin:16px 0 6px;color:var(--brand)}
+.info-pages p,.info-pages li{font-size:14px;color:#374151;margin-bottom:6px}
+.info-pages ul{padding-left:20px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tab{border:1px solid #e5e7eb;background:#fff;border-radius:999px;padding:7px 14px;font-size:13px;cursor:pointer}
+.tab.on{background:var(--brand);color:#fff;border-color:var(--brand)}
 footer{background:#15181c;color:#9aa1a9;padding:28px 0;font-size:13px;margin-top:20px}
 footer a{color:#d1d5db}
 .empty{padding:60px;text-align:center;color:var(--muted)}
+/* cart drawer */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:100}
+.overlay.on{display:block}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:380px;max-width:92vw;background:#fff;z-index:101;transform:translateX(100%);transition:.25s;display:flex;flex-direction:column}
+.drawer.on{transform:translateX(0)}
+.drawer .dh{padding:16px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.drawer .db{flex:1;overflow:auto;padding:12px 16px}
+.drawer .df{padding:16px;border-top:1px solid #eee}
+.ci{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f3f4f6}
+.ci .t{flex:1;font-size:13px;font-weight:600}
+.ci .q{display:flex;align-items:center;gap:6px;margin-top:6px}
+.ci .q button{width:24px;height:24px;border:1px solid #ddd;background:#fff;border-radius:6px;cursor:pointer}
+.ci .p{font-size:13px;font-weight:700;color:var(--brand)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#15181c;color:#fff;padding:12px 20px;border-radius:10px;font-size:14px;z-index:200;transition:.25s;opacity:0}
+.toast.on{transform:translateX(-50%) translateY(0);opacity:1}
 </style>
 </head>
 <body>
@@ -50,19 +77,21 @@ footer a{color:#d1d5db}
     <div class="logo">Loja<span>AO</span></div>
     <div class="search">
       <input id="q" placeholder="Pesquisar produtos..." aria-label="Pesquisar">
-      <button onclick="doSearch()">Buscar</button>
+      <button onclick="doSearch()">🔍</button>
     </div>
+    <button class="lang" onclick="toggleLang()" id="langBtn">EN</button>
+    <button class="cartbtn" onclick="openCart()">🛒 <b id="cartCount">0</b></button>
   </div>
 </header>
 
 <section class="hero">
   <div class="wrap">
-    <h1>Loja online para Angola 🇦🇴</h1>
-    <p>Eletrónica, casa, beleza e ferramentas — com stock local e entrega rápida.</p>
+    <h1 id="hTitle">Loja online para Angola 🇦🇴</h1>
+    <p id="hSub">Eletrónica, casa, beleza e ferramentas — com stock local e entrega rápida.</p>
     <div class="badges">
-      <div class="badge">✔ Stock em Angola</div>
-      <div class="badge">✔ Pagamento na entrega</div>
-      <div class="badge">✔ Suporte em Português</div>
+      <div class="badge" id="b1">✔ Stock em Angola</div>
+      <div class="badge" id="b2">✔ Pagamento na entrega</div>
+      <div class="badge" id="b3">✔ Suporte em Português</div>
     </div>
   </div>
 </section>
@@ -70,63 +99,171 @@ footer a{color:#d1d5db}
 <main class="wrap">
   <div class="cats" id="cats"></div>
   <div class="grid" id="grid"></div>
+
+  <div class="info-pages">
+    <div class="tabs">
+      <div class="tab on" onclick="showInfo('about',this)" id="tAbout">Sobre nós</div>
+      <div class="tab" onclick="showInfo('ship',this)" id="tShip">Entrega</div>
+      <div class="tab" onclick="showInfo('return',this)" id="tReturn">Devoluções</div>
+      <div class="tab" onclick="showInfo('contact',this)" id="tContact">Contacto</div>
+    </div>
+    <div id="infoBody"></div>
+  </div>
 </main>
 
 <footer>
   <div class="wrap">
     <strong style="color:#fff">LojaAO</strong> · Angola<br>
-    Contacto: suporte@lojaao.com &nbsp;|&nbsp; Entrega em todo o país<br>
-    <span style="opacity:.7">© 2026 Todos os direitos reservados.</span>
+    <span id="fContact">Contacto: suporte@lojaao.com | Entrega em todo o país</span><br>
+    <span style="opacity:.7">© 2026 LojaAO. Todos os direitos reservados.</span>
   </div>
 </footer>
 
+<div class="overlay" id="ov" onclick="closeCart()"></div>
+<div class="drawer" id="drawer">
+  <div class="dh"><span id="dTitle">Carrinho</span><button class="lang" onclick="closeCart()">✕</button></div>
+  <div class="db" id="cartBody"></div>
+  <div class="df">
+    <div style="display:flex;justify-content:space-between;font-weight:700;margin-bottom:12px">
+      <span id="dTotalLabel">Total</span><span id="cartTotal">0 Kz</span>
+    </div>
+    <button class="btn" onclick="checkout()" id="dCheckout">Finalizar compra</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
 <script>
-const RATE = 175.44;      // 1 CNY = 175.44 AOA
-const MARKUP = 3.0;       // 加价率（成本 → 售价）
+const RATE = 175.44, MARKUP = 3.0;
 const money = aoa => new Intl.NumberFormat('pt-AO',{maximumFractionDigits:0}).format(aoa) + ' Kz';
-let ALL = [], CAT = 'Todos', Q = '';
+let ALL = [], CAT = 'TODOS', Q = '', LANG = 'pt';
+let cart = JSON.parse(localStorage.getItem('lojaao_cart')||'[]');
+
+const T = {
+  pt:{ all:'Todos', elec:'Eletrónica', beauty:'Beleza', tools:'Ferramentas', home:'Casa & Vida', other:'Outros',
+       search:'Pesquisar produtos...', cart:'Carrinho', total:'Total', checkout:'Finalizar compra',
+       stock:'Em stock', out:'Esgotado', from:'a partir de', buy:'Comprar', empty:'Nenhum produto encontrado.',
+       emptyCart:'O seu carrinho está vazio.', added:'Adicionado ao carrinho!' },
+  en:{ all:'All', elec:'Electronics', beauty:'Beauty', tools:'Tools', home:'Home & Living', other:'Other',
+       search:'Search products...', cart:'Cart', total:'Total', checkout:'Checkout',
+       stock:'In stock', out:'Sold out', from:'from', buy:'Buy', empty:'No products found.',
+       emptyCart:'Your cart is empty.', added:'Added to cart!' }
+};
+const t = k => T[LANG][k];
 
 function catOf(p){
-  const n = (p.name||'').toLowerCase(), spu=(p.spu||'').toUpperCase();
-  if(/耳机|音箱|游戏机|键盘|眼镜|时钟|蓝牙|ouvido|speaker|consola|teclado|oculos/.test(n+spu)) return 'Eletrónica';
-  if(/美容|剃毛|香水|牙刷|唇彩|perfume|shaver|brush/.test(n+spu)) return 'Beleza';
-  if(/钳|扳手|锯|钻|焊接|电钻|serra|alicate|chave|pistola|motosserra/.test(n+spu)) return 'Ferramentas';
-  if(/包|鞋|梳|挂烫|榨汁|清洁|门铃|报警|卡包|bolsa|sapato|pente|juicing|casa/.test(n+spu)) return 'Casa & Vida';
-  return 'Outros';
+  const n=(p.name||'').toLowerCase(), s=(p.spu||'').toUpperCase();
+  if(/耳机|音箱|游戏机|键盘|眼镜|时钟|蓝牙|ouvido|speaker|consola|teclado|oculos/.test(n+s)) return 'elec';
+  if(/美容|剃毛|香水|牙刷|唇彩|perfume|shaver|brush/.test(n+s)) return 'beauty';
+  if(/钳|扳手|锯|钻|焊接|电钻|serra|alicate|chave|pistola|motosserra/.test(n+s)) return 'tools';
+  if(/包|鞋|梳|挂烫|榨汁|清洁|门铃|报警|卡包|bolsa|sapato|pente|juicing|casa/.test(n+s)) return 'home';
+  return 'other';
 }
+function emoji(n){n=(n||'').toLowerCase();
+  if(/耳机|ouvido/.test(n))return'🎧'; if(/音箱|speaker/.test(n))return'🔊';
+  if(/时钟|clock/.test(n))return'⏰'; if(/游戏|consola/.test(n))return'🎮';
+  if(/香水|perfume/.test(n))return'💐'; if(/锯|serra/.test(n))return'🪚';
+  if(/钳|alicate/.test(n))return'🔧'; if(/包|bolsa|carteira/.test(n))return'👛';
+  if(/眼镜|oculos/.test(n))return'🕶️'; if(/美容|brush/.test(n))return'💇'; return'📦';
+}
+function priceOf(p){ return Math.round(parseFloat(p.cost||'0')*MARKUP*RATE); }
 
 function render(){
-  const grid = document.getElementById('grid');
-  let list = ALL.filter(p => CAT==='Todos' || catOf(p)===CAT);
-  if(Q) list = list.filter(p => (p.name+' '+p.spu+' '+p.spec).toLowerCase().includes(Q.toLowerCase()));
-  if(!list.length){ grid.innerHTML = '<div class="empty" style="grid-column:1/-1">Nenhum produto encontrado.</div>'; return; }
-  grid.innerHTML = list.map(p=>{
-    const stock = parseInt(p.stock||'0',10);
-    const price = Math.round(parseFloat(p.cost||'0')*MARKUP*RATE);
-    const ok = stock>0;
-    const emoji = /耳机|ouvido/.test(p.name)?'🎧':/音箱|speaker/.test(p.name)?'🔊':/手表|clock/.test(p.name.toLowerCase())?'⏰':/游戏|consola/.test(p.name.toLowerCase())?'🎮':/香水|perfume/.test(p.name)?'💐':/锯|serra/.test(p.name.toLowerCase())?'🪚':/钳|alicate/.test(p.name.toLowerCase())?'🔧':/包|bolsa/.test(p.name)?'👛':/眼镜|oculos/.test(p.name.toLowerCase())?'🕶️':'📦';
+  const grid=document.getElementById('grid');
+  let list=ALL.filter(p=>CAT==='TODOS'||catOf(p)===CAT);
+  if(Q) list=list.filter(p=>(p.name+' '+p.spu+' '+p.spec).toLowerCase().includes(Q.toLowerCase()));
+  if(!list.length){ grid.innerHTML='<div class="empty" style="grid-column:1/-1">'+t('empty')+'</div>'; return; }
+  grid.innerHTML=list.map(p=>{
+    const st=parseInt(p.stock||'0',10), ok=st>0;
     return `<div class="card">
-      <div class="thumb">${emoji}</div>
+      <div class="thumb" onclick="location.href='product.html?sku=${encodeURIComponent(p.sku)}'">${emoji(p.name)}</div>
       <div class="info">
-        <h3>${p.name}</h3>
-        <div class="stock">${ok? 'Em stock: '+stock : 'Esgotado'}</div>
-        <div class="price">${money(price)}<small>a partir de</small></div>
-        <button class="btn ${ok?'':'out'}" ${ok?'onclick="buy(\''+p.sku+'\')"':'disabled'}>${ok?'Comprar':'Esgotado'}</button>
+        <h3 onclick="location.href='product.html?sku=${encodeURIComponent(p.sku)}'" style="cursor:pointer">${p.name}</h3>
+        <div class="stock">${ok? t('stock')+': '+st : t('out')}</div>
+        <div class="price">${money(priceOf(p))}<small>${t('from')}</small></div>
+        <button class="btn ${ok?'':'out'}" ${ok?`onclick="addCart('${p.sku}',1)"`:'disabled'}>${ok?t('buy'):t('out')}</button>
       </div>
     </div>`;
   }).join('');
 }
-
 function renderCats(){
-  const cats = ['Todos','Eletrónica','Beleza','Ferramentas','Casa & Vida','Outros'];
-  document.getElementById('cats').innerHTML = cats.map(c=>`<div class="cat ${c===CAT?'on':''}" onclick="setCat('${c}')">${c}</div>`).join('');
+  const cats=[['TODOS',t('all')],['elec',t('elec')],['beauty',t('beauty')],['tools',t('tools')],['home',t('home')],['other',t('other')]];
+  document.getElementById('cats').innerHTML=cats.map(([k,l])=>`<div class="cat ${k===CAT?'on':''}" onclick="setCat('${k}')">${l}</div>`).join('');
 }
 function setCat(c){ CAT=c; renderCats(); render(); }
 function doSearch(){ Q=document.getElementById('q').value.trim(); render(); }
-function buy(sku){ location.href = 'product.html?sku='+encodeURIComponent(sku); }
+document.getElementById('q').addEventListener('keydown',e=>{ if(e.key==='Enter') doSearch(); });
 
-fetch('data/products.json').then(r=>r.json()).then(d=>{ ALL=d; renderCats(); render(); })
-  .catch(e=>{ document.getElementById('grid').innerHTML='<div class="empty" style="grid-column:1/-1">Erro ao carregar produtos.</div>'; });
+function toggleLang(){
+  LANG = LANG==='pt'?'en':'pt';
+  document.getElementById('langBtn').textContent = LANG==='pt'?'EN':'PT';
+  document.getElementById('q').placeholder = t('search');
+  document.getElementById('cartCount').parentElement.childNodes[0].nodeValue = '🛒 ';
+  document.getElementById('dTitle').textContent = t('cart');
+  document.getElementById('dTotalLabel').textContent = t('total');
+  document.getElementById('dCheckout').textContent = t('checkout');
+  document.documentElement.lang = LANG;
+  renderCats(); render(); renderCart();
+}
+
+/* ---- Cart ---- */
+function addCart(sku, qty){
+  const p=ALL.find(x=>x.sku===sku); if(!p) return;
+  const it=cart.find(c=>c.sku===sku);
+  const max=parseInt(p.stock||'0',10);
+  if(it){ it.qty=Math.min(it.qty+qty, max); } else { cart.push({sku, name:p.name, price:priceOf(p), qty:Math.min(qty,max)}); }
+  saveCart(); toast(t('added'));
+}
+function setQty(sku,q){ const p=ALL.find(x=>x.sku===sku); const max=parseInt(p?.stock||'99',10);
+  const it=cart.find(c=>c.sku===sku); if(!it) return;
+  it.qty=Math.max(1,Math.min(q,max)); saveCart(); renderCart(); }
+function delItem(sku){ cart=cart.filter(c=>c.sku!==sku); saveCart(); renderCart(); }
+function saveCart(){ localStorage.setItem('lojaao_cart', JSON.stringify(cart)); renderCount(); }
+function renderCount(){ const n=cart.reduce((a,c)=>a+c.qty,0); document.getElementById('cartCount').textContent=n; }
+function cartSum(){ return cart.reduce((a,c)=>a+c.price*c.qty,0); }
+function renderCart(){
+  const b=document.getElementById('cartBody');
+  if(!cart.length){ b.innerHTML='<div class="empty" style="padding:30px">'+t('emptyCart')+'</div>'; }
+  else b.innerHTML=cart.map(c=>`<div class="ci">
+    <div class="t">${c.name}
+      <div class="q"><button onclick="setQty('${c.sku}',${c.qty-1})">−</button><span>${c.qty}</span><button onclick="setQty('${c.sku}',${c.qty+1})">+</button>
+      <a href="#" onclick="delItem('${c.sku}');return false" style="margin-left:auto;color:#b91c1c;font-size:12px">remover</a></div>
+    </div>
+    <div class="p">${money(c.price*c.qty)}</div>
+  </div>`).join('');
+  document.getElementById('cartTotal').textContent=money(cartSum());
+  renderCount();
+}
+function openCart(){ document.getElementById('ov').classList.add('on'); document.getElementById('drawer').classList.add('on'); renderCart(); }
+function closeCart(){ document.getElementById('ov').classList.remove('on'); document.getElementById('drawer').classList.remove('on'); }
+function toast(m){ const el=document.getElementById('toast'); el.textContent=m; el.classList.add('on'); setTimeout(()=>el.classList.remove('on'),1800); }
+function checkout(){
+  if(!cart.length){ toast(t('emptyCart')); return; }
+  localStorage.setItem('lojaao_checkout', JSON.stringify({items:cart, total:cartSum()}));
+  location.href='checkout.html';
+}
+
+/* ---- Info pages ---- */
+function showInfo(key, el){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  if(el) el.classList.add('on');
+  const C={
+    about:`<h2>Sobre a LojaAO</h2><p>A LojaAO é uma loja online dedicada ao mercado angolano. Trabalhamos com stock local para garantir entregas rápidas e produtos verificados.</p>
+      <h3>Porquê comprar connosco</h3><ul><li>Produtos em stock em Angola</li><li>Preços em Kwanzas (AOA)</li><li>Apoio ao cliente em Português</li><li>Pagamento na entrega disponível</li></ul>`,
+    ship:`<h2>Entrega</h2><p>Entregamos em todo o território de Angola a partir do nosso armazém local.</p>
+      <h3>Prazos</h3><ul><li>Luanda: 1 a 3 dias úteis</li><li>Outras províncias: 3 a 7 dias úteis</li></ul>
+      <h3>Custos</h3><p>O custo de entrega é calculado no momento da confirmação do pedido e comunicado por telefone.</p>`,
+    return:`<h2>Devoluções e Garantia</h2><p>Todos os produtos são verificados antes do envio.</p>
+      <h3>Política de devolução</h3><ul><li>Aceitamos devoluções de produtos com defeito em até 7 dias após a receção</li><li>O produto deve estar na embalagem original</li><li>Entre em contacto connosco para iniciar o processo</li></ul>`,
+    contact:`<h2>Contacto</h2><p>Estamos disponíveis para o ajudar.</p>
+      <ul><li>Email: suporte@lojaao.com</li><li>Telefone / WhatsApp: disponível após confirmação do pedido</li><li>Horário: Segunda a Sábado</li></ul>
+      <p>Ou faça o seu pedido diretamente no site e entraremos em contacto.</p>`
+  };
+  document.getElementById('infoBody').innerHTML=C[key];
+}
+
+/* ---- Load ---- */
+ALL=DATA.products; renderCats(); render(); renderCart(); showInfo('about',document.getElementById('tAbout'));
 </script>
+<script>const DATA=/*DATA*/;</script>
 </body>
 </html>
