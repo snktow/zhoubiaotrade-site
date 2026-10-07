@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Produto — LojaAO</title>
+<title>Produto — ZhouBiaoTrade</title>
 <style>
 :root{--brand:#0b6b3a;--brand2:#f0a500;--bg:#f7f7f8;--txt:#15181c;--muted:#6b7280;--radius:14px}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -41,7 +41,7 @@ input:focus{border-color:var(--brand)}
 </head>
 <body>
 <header><div class="wrap top">
-  <div class="logo">Loja<span>AO</span></div>
+  <div class="logo">ZhouBiao<span>Trade</span></div>
   <a class="back" href="index.html">← Voltar à loja</a>
 </div></header>
 
@@ -76,12 +76,12 @@ function emoji(n){n=(n||'').toLowerCase();
   if(/眼镜|oculos/.test(n))return'🕶️'; if(/美容|brush/.test(n))return'💇'; return'📦';
 }
 
-fetch('data/products.json').then(r=>r.json()).then(d=>{
+const d=DATA;
   P = d.products.find(x=>x.sku===qs.get('sku'));
   if(!P){ document.getElementById('pgrid').innerHTML='<div>Produto não encontrado.</div>'; return; }
   const stock = parseInt(P.stock||'0',10), ok = stock>0;
   const price = Math.round(parseFloat(P.cost||'0')*MARKUP*RATE);
-  document.title = P.name + ' — LojaAO';
+  document.title = P.name + ' — ZhouBiaoTrade';
   document.getElementById('pgrid').innerHTML = `
     <div class="heroimg">${emoji(P.name)}</div>
     <div>
@@ -122,6 +122,7 @@ function submitOrder(){
   ok.innerHTML = `✅ Pedido <b>${ORDER.id}</b> registado!<br>Produto: ${ORDER.name} × ${qty}<br>Total: <b>${money.format(ORDER.total)} Kz</b><br><br>Vamos contactá-lo pelo telefone <b>${phone}</b> para confirmar o pagamento e a entrega.`;
   ok.scrollIntoView({behavior:'smooth'});
 }
+const DATA={"site":"zhoubiaotrade.com","market":"Angola (pt)","currency":"AOA","rate_cny_to_aoa":175.44,"markup":3,"updated":"2026-10-07","source":"Dongcan Africa warehouse (read-only)","note":"Page 1 of 22 (30/656 items) — sample for site build. Full sync later.","products":[{"sku":"6998854998502","name":"PENTE ELECTRICO定型梳A1","spu":"A-1 PENTE ELECTRICOdxs","spec":"圆插欧规","stock":9,"cost":20,"buyType":"代采"},{"sku":"2411141901459","name":"ALICATE 老虎钳A1","spu":"A-2 ALICATE lhq","spec":"暂无规格参数","stock":119,"cost":15,"buyType":"自采"},{"sku":"2501271703280","name":"bloqueio de senha密码锁","spu":"A-2 bloqueio de senhamms","spec":"暂无规格参数","stock":0,"cost":23,"buyType":"自采"},{"sku":"2501162352313","name":"RFID碳纤维卡包","spu":"A-2 CARTEIRAqb","spec":"黑橙色","stock":1,"cost":39,"buyType":"代采"},{"sku":"2412112052125","name":"4寸电钻电锯转化器","spu":"A-2 mini motosserra mndj","spec":"4寸 迷你电链锯482g","stock":15,"cost":88,"buyType":"代采"},{"sku":"2501162356267","name":"SERRA MANUAL手电锯","spu":"A-2 SERRA MANUALsdj","spec":"6寸免安装款一电一充5节包塑箱","stock":1,"cost":460,"buyType":"代采"},{"sku":"2501162347241","name":"折叠键盘","spu":"A-2 TECLADO DOBRAVELzdjp","spec":"B033黑色折叠","stock":0,"cost":168,"buyType":"代采"},{"sku":"2501162343571","name":"LUZ ENERGIA EOLICA 风电警示灯","spu":"A-3 LUZ ENERGIA EOLICA fdjsd","spec":"彩色一对装插卡包装","stock":3,"cost":31,"buyType":"代采"},{"sku":"2411242308584","name":"蓝牙5.4无线蓝牙耳机大电量数显通黑色","spu":"A-3 WIFI ouvido wxem","spec":"彩盒包装 双耳播放4和 ENC通话","stock":46,"cost":20,"buyType":"自采"},{"sku":"2501172200369","name":"水桶包","spu":"A-3bolsa pequena coerimsxpb","spec":"米白色+黑色","stock":5,"cost":80,"buyType":"代采"},{"sku":"2501162249026","name":"X6游戏机","spu":"A-4 CONSOLA JOGOS PORTATILzsyxj","spec":"3.5寸屏-紫色","stock":1,"cost":262,"buyType":"代采"},{"sku":"2412192230154","name":"女士剃毛器","spu":"A-4 Electric shaver ddtxd","spec":"紫色+粉色","stock":39,"cost":30,"buyType":"代采"},{"sku":"2501162310559","name":"小型手持挂烫机","spu":"A-4 HANDHELE STEAM ELECTRIC IRONdyd","spec":"玫红色+英文+ 欧规220v","stock":2,"cost":80,"buyType":"代采"},{"sku":"2412192244083","name":"榨汁杯","spu":"A-4 JUICINGCUPzzj","spec":"白色 HS-860 7.4V英文12刀双电池1500毫安","stock":8,"cost":50,"buyType":"代采"},{"sku":"2501162255157","name":"白色复古音箱","spu":"A-4 WHITE NOISE SPEAKERylh","spec":"白色","stock":2,"cost":75,"buyType":"代采"},{"sku":"2412282212374","name":"唇彩12件套","spu":"A-5 Brilho labial acct12s","spec":"12支套盒","stock":0,"cost":35,"buyType":"代采"},{"sku":"2501132257051","name":"CHAVE LONGA 长扳手","spu":"A-5 CHAVE LONGA zbs","spec":"暂无规格参数","stock":0,"cost":55,"buyType":"自采"},{"sku":"2501132232386","name":"爆闪遥控灯","spu":"A-5 LUZES PISCANTES CONTROLEbsykd","spec":"暂无规格参数","stock":20,"cost":80,"buyType":"自采"},{"sku":"2501062331517","name":"智能牙刷消毒盒","spu":"A-6 caixa esteriliza yssjh","spec":"白色","stock":8,"cost":100,"buyType":"代采"},{"sku":"2412282206373","name":"蓝牙音响帽","spu":"A-6 Chapeu de nusicaylm","spec":"黑色","stock":0,"cost":50,"buyType":"代采"},{"sku":"2501062342544","name":"无线可视门铃对讲","spu":"B-4 canpainha de video sem fiowxksml","spec":"默认","stock":6,"cost":40,"buyType":"代采"},{"sku":"2501132301303","name":"DOOR STOP ALARM 门禁报警器","spu":"B-4 DOOR STOP ALAEM mjbjq","spec":"暂无规格参数","stock":0,"cost":18,"buyType":"自采"},{"sku":"2501132259130","name":"LED投影时钟","spu":"B-5 LEDLED PROJECTION CILOCKtysz","spec":"暂无规格参数","stock":36,"cost":43,"buyType":"自采"},{"sku":"2501132323060","name":"白鞋清洁剂","spu":"B-5 limpador sapatos brancobxqjj","spec":"暂无规格参数","stock":0,"cost":12,"buyType":"自采"},{"sku":"2412311551085","name":"蓝牙眼镜智能眼镜","spu":"B-7 OCULOS INTELIGENTESznyj","spec":"GS09黑色","stock":9,"cost":100,"buyType":"代采"},{"sku":"2501132310510","name":"塑料卡子","spu":"C-1 clipe de plasticoslkz","spec":"暂无规格参数","stock":0,"cost":36,"buyType":"自采"},{"sku":"2502032239024","name":"magic brush电动清洁刷","spu":"C-1 maglc brushddqjs","spec":"充电+5个头英文大盒","stock":412,"cost":15,"buyType":"代采"},{"sku":"2501132307442","name":"塑料焊接枪","spu":"C-2 pistola de soldagem de plasticoslhjq","spec":"暂无规格参数","stock":207,"cost":58,"buyType":"自采"},{"sku":"2501132305080","name":"perfume香水","spu":"C-4 perfume xs","spec":"暂无规格参数","stock":160,"cost":26,"buyType":"自采"},{"sku":"2411141920467","name":"海豚美容仪面部导入家用淡化","spu":"i-1 STRONG PULSE 101mry","spec":"白色单机 二节7号电池","stock":204,"cost":7,"buyType":"自采"}]};
 </script>
 </body>
 </html>
