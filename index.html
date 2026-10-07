@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZhouBiao Trade — Loja Online | Angola</title>
+<meta name="description" content="Produtos de qualidade com entrega rápida em Angola. Eletrónica, casa, beleza e ferramentas.">
+<style>
+:root{--brand:#0b6b3a;--brand2:#f0a500;--bg:#f7f7f8;--txt:#15181c;--muted:#6b7280;--card:#fff;--radius:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5}
+a{text-decoration:none;color:inherit}
+header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #e5e7eb}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+.top{display:flex;align-items:center;gap:14px;height:64px}
+.logo{font-weight:800;font-size:20px;color:var(--brand);white-space:nowrap}
+.logo span{color:var(--brand2)}
+.search{flex:1;display:flex;background:var(--bg);border:1px solid #e5e7eb;border-radius:999px;overflow:hidden}
+.search input{flex:1;border:0;background:transparent;padding:10px 16px;font-size:15px;outline:none}
+.search button{border:0;background:var(--brand);color:#fff;padding:0 20px;font-size:15px;cursor:pointer}
+.hero{background:linear-gradient(135deg,var(--brand),#0e8a4a);color:#fff;padding:36px 0;margin-bottom:20px}
+.hero h1{font-size:26px;margin-bottom:8px}
+.hero p{opacity:.92;font-size:15px}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.badge{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 14px;font-size:13px}
+.cats{display:flex;gap:8px;overflow-x:auto;padding:14px 0;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cat{border:1px solid #e5e7eb;background:#fff;border-radius:999px;padding:8px 16px;font-size:14px;white-space:nowrap;cursor:pointer}
+.cat.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;padding-bottom:40px}
+.card{background:var(--card);border-radius:var(--radius);overflow:hidden;border:1px solid #eceef1;display:flex;flex-direction:column;transition:.15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.07)}
+.thumb{aspect-ratio:1;background:#eef0f2;display:flex;align-items:center;justify-content:center;font-size:34px;color:#c9ced4}
+.card .info{padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{font-size:14px;font-weight:600;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:38px}
+.price{font-size:17px;font-weight:800;color:var(--brand)}
+.price small{font-weight:500;color:var(--muted);font-size:12px;display:block}
+.stock{font-size:12px;color:var(--muted)}
+.btn{display:block;text-align:center;background:var(--brand);color:#fff;border:0;border-radius:10px;padding:10px;font-size:14px;font-weight:600;cursor:pointer;margin-top:auto}
+.btn.alt{background:var(--brand2);color:#1a1a1a}
+.out{background:#e5e7eb!important;color:#9aa1a9!important;cursor:not-allowed}
+footer{background:#15181c;color:#9aa1a9;padding:28px 0;font-size:13px;margin-top:20px}
+footer a{color:#d1d5db}
+.empty{padding:60px;text-align:center;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap top">
+    <div class="logo">ZhouBiao<span>Trade</span></div>
+    <div class="search">
+      <input id="q" placeholder="Pesquisar produtos..." aria-label="Pesquisar">
+      <button onclick="doSearch()">Buscar</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>Loja online para Angola 🇦🇴</h1>
+    <p>Eletrónica, casa, beleza e ferramentas — com stock local e entrega rápida.</p>
+    <div class="badges">
+      <div class="badge">✔ Stock em Angola</div>
+      <div class="badge">✔ Pagamento na entrega</div>
+      <div class="badge">✔ Suporte em Português</div>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+  <div class="cats" id="cats"></div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong style="color:#fff">ZhouBiaoTrade</strong> · Kunming ZhouBiao Trade Co., Ltd.<br>
+    Contacto: zhoubiao@zhoubiaotrade.cn &nbsp;|&nbsp; zhoubiaotrade.com<br>
+    <span style="opacity:.7">© 2026 Todos os direitos reservados.</span>
+  </div>
+</footer>
+
+<script>
+const RATE = 175.44;      // 1 CNY = 175.44 AOA
+const MARKUP = 3.0;       // 加价率（成本 → 售价）
+const money = aoa => new Intl.NumberFormat('pt-AO',{maximumFractionDigits:0}).format(aoa) + ' Kz';
+let ALL = [], CAT = 'Todos', Q = '';
+
+function catOf(p){
+  const n = (p.name||'').toLowerCase(), spu=(p.spu||'').toUpperCase();
+  if(/耳机|音箱|游戏机|键盘|眼镜|时钟|蓝牙|ouvido|speaker|consola|teclado|oculos/.test(n+spu)) return 'Eletrónica';
+  if(/美容|剃毛|香水|牙刷|唇彩|perfume|shaver|brush/.test(n+spu)) return 'Beleza';
+  if(/钳|扳手|锯|钻|焊接|电钻|serra|alicate|chave|pistola|motosserra/.test(n+spu)) return 'Ferramentas';
+  if(/包|鞋|梳|挂烫|榨汁|清洁|门铃|报警|卡包|bolsa|sapato|pente|juicing|casa/.test(n+spu)) return 'Casa & Vida';
+  return 'Outros';
+}
+
+function render(){
+  const grid = document.getElementById('grid');
+  let list = ALL.filter(p => CAT==='Todos' || catOf(p)===CAT);
+  if(Q) list = list.filter(p => (p.name+' '+p.spu+' '+p.spec).toLowerCase().includes(Q.toLowerCase()));
+  if(!list.length){ grid.innerHTML = '<div class="empty" style="grid-column:1/-1">Nenhum produto encontrado.</div>'; return; }
+  grid.innerHTML = list.map(p=>{
+    const stock = parseInt(p.stock||'0',10);
+    const price = Math.round(parseFloat(p.cost||'0')*MARKUP*RATE);
+    const ok = stock>0;
+    const emoji = /耳机|ouvido/.test(p.name)?'🎧':/音箱|speaker/.test(p.name)?'🔊':/手表|clock/.test(p.name.toLowerCase())?'⏰':/游戏|consola/.test(p.name.toLowerCase())?'🎮':/香水|perfume/.test(p.name)?'💐':/锯|serra/.test(p.name.toLowerCase())?'🪚':/钳|alicate/.test(p.name.toLowerCase())?'🔧':/包|bolsa/.test(p.name)?'👛':/眼镜|oculos/.test(p.name.toLowerCase())?'🕶️':'📦';
+    return `<div class="card">
+      <div class="thumb">${emoji}</div>
+      <div class="info">
+        <h3>${p.name}</h3>
+        <div class="stock">${ok? 'Em stock: '+stock : 'Esgotado'}</div>
+        <div class="price">${money(price)}<small>a partir de</small></div>
+        <button class="btn ${ok?'':'out'}" ${ok?'onclick="buy(\''+p.sku+'\')"':'disabled'}>${ok?'Comprar':'Esgotado'}</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderCats(){
+  const cats = ['Todos','Eletrónica','Beleza','Ferramentas','Casa & Vida','Outros'];
+  document.getElementById('cats').innerHTML = cats.map(c=>`<div class="cat ${c===CAT?'on':''}" onclick="setCat('${c}')">${c}</div>`).join('');
+}
+function setCat(c){ CAT=c; renderCats(); render(); }
+function doSearch(){ Q=document.getElementById('q').value.trim(); render(); }
+function buy(sku){ location.href = 'product.html?sku='+encodeURIComponent(sku); }
+
+fetch('data/products.json').then(r=>r.json()).then(d=>{ ALL=d; renderCats(); render(); })
+  .catch(e=>{ document.getElementById('grid').innerHTML='<div class="empty" style="grid-column:1/-1">Erro ao carregar produtos.</div>'; });
+</script>
+</body>
+</html>
